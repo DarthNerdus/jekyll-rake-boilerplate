@@ -25,17 +25,16 @@ Please note that the code is intentionally "messy" and quite un-DRY so that'll b
       template:
       extension:
     editor:
-    git:
 
 ## Examples
 
 ### Post Template (Text)
 
-  --- 
+    --- 
     layout: text
     title:
     date: 2016-01-01 <!-- This ensures the post is at the top while previewing -->
-  ---
+    ---
 
 ### Post Template (Link Post)
 
