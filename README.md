@@ -1,6 +1,6 @@
 # Jekyll Rake Boilerplate
 
-*Jekyll Rake Boilerplate* is a small rake "boilerplate" for doing common tasks with the static site generator [Jekyll](http://jekyllrb.com/ "Jekyll"), such as generating your site, preview it in your default browser, creating a new post or page from a default template and transfering it to a remote git repository, a remote host/server or a local git repository.
+*Jekyll Rake Boilerplate* is a small rake "boilerplate" for doing common tasks with the static site generator [Jekyll](http://jekyllrb.com/ "Jekyll"), such as generating your site, preview it in your default browser, creating a new post from a template, or publishing a post and checking it into your git repository.
 
 Please note that the code is intentionally "messy" and quite un-DRY so that'll be easier to take the parts that you want and toss away the others.
 
@@ -8,113 +8,51 @@ Please note that the code is intentionally "messy" and quite un-DRY so that'll b
 
 ### Tasks
 
-    rake post["Post title"]
-	rake draft["Post title"]
-	rake publish["post-title"]
-    rake page["Page title","Path/to/folder"]
-    rake build
-    rake watch[number]
-    rake preview
-    rake deploy["Commit message"]
-    rake transfer
+    rake draft    # Create a draft in _drafts [title, template, meta]
+    rake preview  # Launch a preview of the site in the browser [drafts (true/false)]
+    rake publish  # Move a post from _drafts to _posts
 
-`rake post["Post title"]` creates a new post in the `_posts` directory by reading the default template file, adding the title you've specified and generating a filename by using the current date and the title.
+`rake draft title="Hello world"` creates a new post in the `_posts` directory by reading the default template file, adding the title you've specified and generating a filename by using the current date and the title. You may also specify an alternative template within your `_templates` folder and specify a `meta:` value for the YAML data of your post.
 
-`rake draft["Post title"]` creates a new post in the `_drafts` directory by reading the default template file, adding the title you've specified and generating a filename.
+`rake publish post="hello-world"` moves a post from the `_drafts` directory to the `_posts` directory and appends the current date to it, as well as specifying the time of publishing within the YAML data of the post. If there's no post title in the task it'll instead list all of the posts in the `_drafts` directory. This task will also stash any changes within your repository, add and commit your post, and unstash your other changes.
 
-`rake publish["post-title"]` moves a post from the `_drafts` directory to the `_posts` directory and appends the current date to it. If there's no post title in the task it'll instead list all of the posts in the `_drafts` directory.
+`rake preview drafts="false"` launches your default browser and then generates and watches the site so you can preview it. Additionally, you may specify whether or not to include draft posts. Defaults to `true`. Please note that you may need to hit refresh once your browser has launched. This task requires the ruby gem [Launchy](http://rubygems.org/gems/launchy "Launchy"). You can install by typing `gem install launchy` or `sudo gem install launchy` in your terminal/command prompt.
 
-`rake page["Page title","Path/to/folder"]` creates a new page. If the file path is not specified the page will get placed in the site's source directory.
-
-`rake build` just generates the site.
-
-`rake watch` generates the site and watches it for changes. If you want to generate it with a post limit, use `rake watch[1]` or whatever number of posts you want to see. 
-
-`rake preview` launches your default browser and then generates and watches the site so you can preview it. Please note that you may need to hit refresh once your browser has launched. This task requires the ruby gem [Launchy](http://rubygems.org/gems/launchy "Launchy"). You can install by typing `gem install launchy` or `sudo gem install launchy` in your terminal/command prompt.
-
-`rake deploy["Commit message"]` adds, commits and pushes your site to the site's remote git repository with the commit message you've specified. It also uses the `rake build` task to generate the site before it goes through the whole git process.
-
-`rake transfer` uses either `robocopy` or `rsync` to transfer your site to a remote host/server or a local git repository. It also uses the `rake build` task to generate the site before it goes through the whole transfering process.
 
 ### _config.yml
 
     post:
       template:
       extension:
-    page:
-      template:
-      extension:
     editor:
-	git:
-	  branch:
-    transfer:
-      command:
-      settings:
-      source:
-      destination:
+    git:
 
 ## Examples
 
-### Post Template
+### Post Template (Text)
 
-    ---
+  --- 
+    layout: text
     title:
-    layout: post
-    ---
+    date: 2016-01-01 <!-- This ensures the post is at the top while previewing -->
+  ---
 
-### Page Template
+### Post Template (Link Post)
 
-    ---
-    title:
-    layout: page
+    --- 
+    layout: link
+    title: 
+    meta: 
+    date: 2016-01-01
     ---
 
 ### Editor
 
-    editor: gvim
-
-### Git Branch
-    
-    git:
-      branch: master
-
-### Remote Transfer Settings (for Windows)
-
-    transfer:
-      command: robocopy
-      settings: /mir
-      source: _site\
-      destination: username@servername:\var\www\websitename\
-
-### Remote Transfer Settings (for Unix)
-
-    transfer:
-      command: rsync
-      settings: -av --delete
-      source: _site/
-      destination: username@servername:/var/www/websitename/
-
-### Local Transfer Settings (for Windows)
-
-    transfer:
-      command: robocopy
-      settings: /e
-      source: _site\
-      destination: C:\Git\username.github.com\
-
-### Local Transfer Settings (for Unix)
-
-    transfer:
-      command: rsync
-      settings: -av
-      source: _site/
-      destination: ~/Git/username.github.com/
-
-## Known Issues
-
-Rake tasks doesn't play nice when it comes to including commas in arguments. For example, if you try to create a post by running `post["One, two, three"]` the name and title of the post will become `One`. The easiest work-around for this is to skip the commas when your creating a post and adding them later on.
+    editor: subl
 
 ## Credits
+
+Huge thanks to [gummesson](https://github.com/gummesson "gummesson on GitHub") for creating this project.
 
 Many thanks to [ixti](https://github.com/ixti "ixti on GitHub") for finding the `Launchy` gem and pointing me in the right direction.
 
