@@ -24,7 +24,7 @@ Please note that the code is intentionally "messy" and quite un-DRY so that'll b
     post:
       template:
       extension:
-    editor:
+    editor: 
 
 ## Examples
 
@@ -44,6 +44,17 @@ Please note that the code is intentionally "messy" and quite un-DRY so that'll b
     meta: 
     date: 2016-01-01
     ---
+
+### Link Blog Post
+    --- 
+    layout: link
+    title: "Facebook Home and Dogfooding"
+    meta: http://daringfireball.net/2013/05/facebook_home_dogfooding
+    date: 2013-05-15 02:58:47 -0400
+    ---    
+    Gruber:
+    
+    > It’s always a sign of trouble when you’ve built something you don’t want to use yourself. Why does everyone I know who works at Apple carry an iPhone? Every single one? Not because they have to. It’s because they want to.
 
 ### Editor
 
